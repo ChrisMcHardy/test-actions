@@ -1,12 +1,7 @@
-// Use ES module syntax with 'export'
 export const handler = async (event) => {
-  // You can log the incoming event if you'd like
   console.log("Received event:", JSON.stringify(event, null, 2));
-
-  // Example of accessing query parameters or body data
-  const message = event.queryStringParameters?.message || "Hello, World!";
-
-  // Returning a simple response
+  const amount = parseInt(event.queryStringParameters?.amount) || 0;
+  const message = Math.floor(Math.random() * 6) + 1 > 3 ? `You WON ${amount * 2}!` : `You lost your money, win it back now!`;
   const response = {
     statusCode: 200,
     body: JSON.stringify({
@@ -14,6 +9,5 @@ export const handler = async (event) => {
       input: event,
     }),
   };
-
   return response;
 };
