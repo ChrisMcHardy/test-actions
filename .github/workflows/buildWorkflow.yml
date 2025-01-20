@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Build Workflow
 
 on:
   push:
@@ -23,6 +23,3 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-
-    - name: Compile TypeScript
-      run: npx tsc

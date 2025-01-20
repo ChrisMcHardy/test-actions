@@ -1,10 +1,10 @@
 {
   "name": "test_mon",
   "version": "1.0.0",
-  "main": "dist/server.js",
+  "main": "index.mjs",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "build": "echo 'No Build'",
+    "start": "node index.mjs"
   },
   "repository": {
     "type": "git",
