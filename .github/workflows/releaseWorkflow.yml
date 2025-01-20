@@ -13,15 +13,26 @@ jobs:
     name: Release pushed tag
     runs-on: ubuntu-22.04
     steps:
-      - name: Create release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
         run: |
-          gh release create "$tag" \
-              --repo="$GITHUB_REPOSITORY" \
-              --title="${tag#v}" \
-              --generate-notes
+          npm install
+
+      - name: Build the project
+        run: |
+          npm run build  # Ensure this generates the 'dist' folder
+
+      - name: Check if dist directory exists
+        run: |
+          if [ -d "./dist" ]; then
+            echo "Dist directory exists."
+          else
+            echo "Dist directory does not exist."
+            exit 1
+          fi
+
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -30,14 +41,9 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Check if build directory exists
+      - name: Package the app
         run: |
-          if [ -d "./build" ]; then
-            echo "Build directory exists."
-          else
-            echo "Build directory does not exist."
-            exit 1
-          fi
+          zip -r function.zip ./dist  # Change to 'dist' folder
 
       - name: Deploy to Lambda
         run: |
