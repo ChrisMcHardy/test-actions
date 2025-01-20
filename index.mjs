@@ -1,4 +1,5 @@
-exports.handler = async (event) => {
+// Use ES module syntax with 'export'
+export const handler = async (event) => {
   // You can log the incoming event if you'd like
   console.log("Received event:", JSON.stringify(event, null, 2));
 
