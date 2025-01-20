@@ -47,7 +47,7 @@ jobs:
 
       - name: Package the app
         run: |
-          zip -r function.zip ./src/server.js
+          zip -r function.zip server.mjs
 
       - name: Deploy to Lambda
         run: |
