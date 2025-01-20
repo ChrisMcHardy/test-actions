@@ -30,9 +30,14 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Package the app
+      - name: Check if build directory exists
         run: |
-          zip -r function.zip ./build
+          if [ -d "./build" ]; then
+            echo "Build directory exists."
+          else
+            echo "Build directory does not exist."
+            exit 1
+          fi
 
       - name: Deploy to Lambda
         run: |
